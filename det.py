@@ -1,8 +1,22 @@
 import cv2
 import numpy as np
+import requests
+import os.path
 
 
 def findObjects(img):
+
+    if not os.path.isfile('coco.names'):
+        r = requests.get('https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names', allow_redirects=True)
+        open('coco.names', 'wb').write(r.content)
+
+    if not os.path.isfile('yolov3.cfg'):
+        r = requests.get('https://opencv-tutorial.readthedocs.io/en/latest/_downloads/10e685aad953495a95c17bfecd1649e5/yolov3.cfg', allow_redirects=True)
+        open('yolov3.cfg', 'wb').write(r.content)
+
+    if not os.path.isfile('yolov3.weights'):
+        r = requests.get('https://pjreddie.com/media/files/yolov3.weights', allow_redirects=True)
+        open('yolov3.weights', 'wb').write(r.content)
 
     whT = 320
     confTreshold = 0.5
