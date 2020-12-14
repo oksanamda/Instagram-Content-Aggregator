@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, make_response
+from flask import Flask, render_template, request, jsonify, make_response, redirect, url_for
 import random
 import time
 
@@ -34,8 +34,10 @@ for x in range(posts):
 
     db.append([x, " ".join(heading_parts), " ".join(content_parts)])
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        return redirect(url_for('result'))
     return render_template('index.html')
 
 
@@ -50,21 +52,32 @@ def load():
 
     time.sleep(0.2)  # Used to simulate delay
 
-    if request.args:
-        counter = int(request.args.get("c"))  # The 'counter' value sent in the QS
+    counter = 0
 
-        if counter == 0:
-            print(f"Returning posts 0 to {quantity}")
-            # Slice 0 -> quantity from the db
-            res = make_response(jsonify(db[0: quantity]), 200)
+    # смотри если будет нужно задать определенное число начиная с которого будут 
+    # заливаться посты то тогда это можно прислать в запросе как counter
+    # пока фиксируем counter, но как только ты придумаешь интерфейс, я могу реализовать это
+    # то же самое и с quantity
+    # Милена
 
-        elif counter == posts:
-            print("No more posts")
-            res = make_response(jsonify({}), 200)
+    #if request.args:
+    #    counter = int(request.args.get("c"))  # The 'counter' value sent in the QS
 
-        else:
-            print(f"Returning posts {counter} to {counter + quantity}")
-            # Slice counter -> quantity from the db
-            res = make_response(jsonify(db[counter: counter + quantity]), 200)
+    if counter == 0:
+        print(f"Returning posts 0 to {quantity}")
+        # Slice 0 -> quantity from the db
+        res = make_response(jsonify(db[0: quantity]), 200)
+
+    elif counter == posts:
+        print("No more posts")
+        res = make_response(jsonify({}), 200)
+
+    else:
+        print(f"Returning posts {counter} to {counter + quantity}")
+        # Slice counter -> quantity from the db
+        res = make_response(jsonify(db[counter: counter + quantity]), 200)
 
     return res
+
+if __name__ == '__main__':
+    app.run(debug = True)
