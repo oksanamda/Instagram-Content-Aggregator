@@ -1,9 +1,46 @@
+body {
+  background-color: #fbfbfb;
+  display: flex;
+  height: 100vh;
+}
+
 .result-header {
-    font-size: 14px;
+    font-size: 30px;
     line-height: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #34495e;
     font-weight: 800;
     text-align: left;
+    margin-top: 5%;
+}
+
+.insta-post {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5%;
+}
+
+.insta-photo {
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+.photo {
+  max-height: 300px;
+  width: auto;
+  box-shadow: 0px 2px 5px 0px rgba(10, 6, 20, 0.24);
+}
+
+.insta-caption {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #34495e;
+    font-weight: 800;
+    text-align: left;
+    margin-top: 2%;
 }
