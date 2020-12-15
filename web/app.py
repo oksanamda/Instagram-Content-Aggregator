@@ -37,7 +37,12 @@ for x in range(posts):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        return redirect(url_for('result'))
+        data = request.form.to_dict()
+        # блок try-except - проверка на int
+        try:
+            return redirect(url_for("load", instalogin = int(data['instalogin'])))
+        except:
+            return redirect(url_for('result'))
     return render_template('index.html')
 
 
@@ -46,13 +51,11 @@ def result():
     return render_template('result_page.html')
 
 
-@app.route("/result/load")
-def load():
+@app.route("/result/load/<instalogin>")
+def load(instalogin=0):
     """ Route to return the posts """
 
     time.sleep(0.2)  # Used to simulate delay
-
-    counter = 0
 
     # смотри если будет нужно задать определенное число начиная с которого будут 
     # заливаться посты то тогда это можно прислать в запросе как counter
@@ -63,12 +66,13 @@ def load():
     #if request.args:
     #    counter = int(request.args.get("c"))  # The 'counter' value sent in the QS
 
-    if counter == 0:
+    counter = int(instalogin)
+    if counter <= 0:
         print(f"Returning posts 0 to {quantity}")
         # Slice 0 -> quantity from the db
         res = make_response(jsonify(db[0: quantity]), 200)
 
-    elif counter == posts:
+    elif counter >= posts:
         print("No more posts")
         res = make_response(jsonify({}), 200)
 
