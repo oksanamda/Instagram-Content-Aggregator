@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.9.1-slim-stretch
+FROM python:3.9.1
 
 # set work directory
 WORKDIR /usr/src/app
