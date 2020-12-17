@@ -9,13 +9,10 @@ import scrapyelasticsearch
 import requests
 import pd
 import cod
-from dostoevsky.tokenization import RegexTokenizer
-from dostoevsky.models import FastTextSocialNetworkModel
-import texclas
 
 
-API = 'ff46b59d4087e5bc1dbf65aa158e094b'
-user_accounts = ['nice_merch']
+API = cod.apicod()
+user_accounts = ['nice_merch'] 
 
 
 def stop_reactor():
@@ -48,7 +45,7 @@ class InstagramSpider(scrapy.Spider):
 
     def start_requests(self):
         for username in user_accounts:
-            url = f'https://www.instagram.com/{username}/?hl=en'
+            url = f'https://www.instagram.com/{username}/?hl=ru'
             yield scrapy.Request(get_url(url), callback=self.parse)
 
     def parse(self, response):
@@ -115,11 +112,9 @@ class InstagramSpider(scrapy.Spider):
                 for i2 in i['node']['edge_media_to_caption']['edges']:
                     captions += i2['node']['text'] + "\n"
             comment_count = i['node']['edge_media_to_comment']['count'] if 'edge_media_to_comment' in i['node'].keys() else ''
-
-            #print("\n\n\n\n")
-            #print(i['node']['edge_media_to_comment'])
-            #print("\n\n\n\n")
-
+            print("\n\n\n\n")
+            print(i['node']['edge_media_to_comment'])
+            print("\n\n\n\n")
             date_posted_human = datetime.fromtimestamp(date_posted_timestamp).strftime("%d/%m/%Y %H:%M:%S")
             like_count = i['node']['edge_liked_by']['count'] if "edge_liked_by" in i['node'].keys() else ''
 
@@ -129,29 +124,11 @@ class InstagramSpider(scrapy.Spider):
                 f.write(Picture_request.content)
             # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            tokenizer = RegexTokenizer()
-            model = FastTextSocialNetworkModel(tokenizer=tokenizer)
-            
-            sentim = []
-            for com in i['node']['edge_media_to_comment']['edges']:
-                # print(com['node']['text'])
-
-                results = model.predict([com['node']['text']], k=len(com['node']['text']))
-                for x in results:
-                    sentim.append(list(x.keys())[0])
- 
-            posit = sentim.count("positive")
-            negat = sentim.count("negative")
-            cnt = len(sentim)
-            fins = 0
-            if cnt != 0:
-                fins = round(100*(posit/cnt)) + round(100*(negat/cnt))/100
             item = {'postURL': url, 'isVideo': video, 'date_posted': date_posted_human,
                     'timestamp': date_posted_timestamp, 'likeCount': like_count, 'commentCount': comment_count,
                     'image_url': image_url,
                     'videoURL': video_url, 'captions': captions[:-1],
-                    'image_description': pd.findObjects("tmp.jpg"),
-                    'sentiment': str(fins)}  #,'brief': texclas.clss(captions[:-1])}
+                    'image_description': pd.findObjects("tmp.jpg")}
             yield item
         next_page_bool = data['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
         if next_page_bool:

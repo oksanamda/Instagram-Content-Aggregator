@@ -1,1 +1,8 @@
 env
+instascraper/main/yolov3.weights
+yolov3.weights
+.gitignore
+.vscode/settings.json
+instascraper/main/phout.json
+instascraper/main/cod.py
+instascraper/main/tmp.jpg
