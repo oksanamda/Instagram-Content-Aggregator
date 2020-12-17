@@ -18,22 +18,19 @@
 <div class="container">
  <h4 class="result-header">Result for HASHTAG</h4>
 
-  <!--
-    НАД ЭТИМ ДИВОМ ДОЖДЕН БЫТЬ ЦИКЛ
-    ссылку на фото заменить на фотографии
-    аналогично в параграфе выводить описание фотки из инсты, тег фотки от нейронки, тег описания от нейронки (??)
-    -->
-  {% for post in results %}
+  {% for row in results %}
   <div class="insta-post">
     <div class="insta-photo">
-      <img class="photo" src={{post[0]}}>
+      <img class="photo" src={{row[0]}}>
       <div class="insta-caption">
-        <p>Описание поста: {{post[1]}}</p>
-          <p>Тэги от нейронки:{{ post[2]}}</p>
-           <p> Анализ тональности: {{post[3]}} </p>
+        <p>Описание поста: {{row[1]}}</p>
+          <p>Тэги от нейронки:{{ row[2]}}</p>
+           <p> Анализ тональности: {{row[3]}} </p>
+          <img src="/plot.png" alt="my plot">
       </div>
     </div>
   </div>
+
   {% endfor %}
   </div>
 </body>

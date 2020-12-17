@@ -4,17 +4,37 @@ import time
 import requests
 from elasticsearch import Elasticsearch
 import json
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import io
+import random
+from flask import Response
+
 
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-db = list()  # The mock database
 
-posts = 500  # num posts to generate
+# @app.route('/plot.png')
+# def plot_png():
+#     fig = create_figure()
+#     output = io.BytesIO()
+#     FigureCanvas(fig).print_png(output)
+#     return Response(output.getvalue(), mimetype='image/png')
+#
+#
+# def create_figure():
+#
+#     fig = Figure()
+#     axis = fig.add_subplot(1, 1, 1)
+#     xs = range(100)
+#     ys = [random.randint(1, 50) for x in xs]
+#     axis.plot(xs, ys)
+#
+#     return fig
 
-quantity = 20  # num posts to return per request
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -37,13 +57,16 @@ def load(instatag):
 
 
     results = []
-    #resp = es.search(index="scrapy", size=10000, body={"query": {"match_all": {}}})
-    with open('/home/oksana/Documents/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
-        resp = json.loads(f.read())
-    f.close() 
-    for post in resp: # resp["hits"]["hits"]:
-        results.append((post["image_url"], post["captions"], post["image_description"], post['sentiment']))
-        #results.append((row["_source"]["image_url"], row["_source"]["captions"], row["_source"]["image_description"]))
+
+    resp = es.search(index="scrapy-2020-12", size=10000, body={"query": {"match_all": {}}})
+
+    # with open('/home/oksana/Documents/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
+    #     resp = json.loads(f.read())
+    # f.close()
+
+    for row in resp["hits"]["hits"]:
+        results.append((row["_source"]["image_url"], row["_source"]["captions"], row["_source"]["image_description"],
+                        row["_source"]["sentiment"]))
 
     return render_template('result_page.html', results=results)
 

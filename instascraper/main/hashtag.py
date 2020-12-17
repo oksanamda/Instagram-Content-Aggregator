@@ -12,7 +12,7 @@ import cod
 import comments
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
-tags = ['oblomoffood']
+tags = ['privetmire']
 
 
 def stop_reactor():

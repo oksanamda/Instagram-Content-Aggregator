@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="428601c0-f4ea-4e30-b81d-484e7f002ef0" name="Default Changelist" comment="" />
+    <list default="true" id="428601c0-f4ea-4e30-b81d-484e7f002ef0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/elastic.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/elastic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/hashtag.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/hashtag.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/templates/result_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../web/templates/result_page.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +27,36 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../web" />
+  </component>
+  <component name="RunManager">
+    <configuration name="elastic" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="instascraper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main/elastic.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.elastic" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -33,6 +69,7 @@
       <option name="presentableId" value="Default" />
       <updated>1608210533703</updated>
       <workItem from="1608210535241" duration="40000" />
+      <workItem from="1608238896877" duration="1853000" />
     </task>
     <servers />
   </component>
@@ -40,9 +77,12 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="773" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1608210573474">
+    <state x="773" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1608239666523">
       <screen x="61" y="27" width="1859" height="1053" />
     </state>
-    <state x="773" y="310" width="424" height="484" key="FileChooserDialogImpl/61.27.1859.1053@61.27.1859.1053" timestamp="1608210573474" />
+    <state x="773" y="310" width="424" height="484" key="FileChooserDialogImpl/61.27.1859.1053@61.27.1859.1053" timestamp="1608239666523" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/instascraper$elastic.coverage" NAME="elastic Coverage Results" MODIFIED="1608240135774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/main" />
   </component>
 </project>
