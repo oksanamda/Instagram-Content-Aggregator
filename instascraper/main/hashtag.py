@@ -9,12 +9,10 @@ import scrapyelasticsearch
 import requests
 import pd
 import cod
-from dostoevsky.tokenization import RegexTokenizer
-from dostoevsky.models import FastTextSocialNetworkModel
-
+import comments
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
-user_accounts = ['oblomoffood']
+tags = ['oblomoffood']
 
 
 def stop_reactor():
@@ -45,9 +43,9 @@ class InstagramSpider(scrapy.Spider):
     def spider_closed(self, spider):
         print('Closing {} spider'.format(spider.name))
 
-    def start_requests(self):
-        for username in user_accounts:
-            url = f'https://www.instagram.com/explore/tags/{username}/'
+    def start_requests(self, tags):
+        for tag in tags:
+            url = f'https://www.instagram.com/explore/tags/{tag}/'
             yield scrapy.Request(get_url(url), callback=self.parse)
 
     def parse(self, response):
@@ -85,16 +83,8 @@ class InstagramSpider(scrapy.Spider):
                 f.write(Picture_request.content)
             # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            tokenizer = RegexTokenizer()
-            model = FastTextSocialNetworkModel(tokenizer=tokenizer)
 
-            sentim = []
-            for com in i['node']['edge_media_to_comment']['edges']:
-                # print(com['node']['text'])
-
-                results = model.predict([com['node']['text']], k=len(com['node']['text']))
-                for x in results:
-                    sentim.append(list(x.keys())[0])
+            sentim = comments.return_sentiment(i['node']['shortcode'])
 
             posit = sentim.count("positive")
             negat = sentim.count("negative")
@@ -156,19 +146,7 @@ class InstagramSpider(scrapy.Spider):
                 f.write(Picture_request.content)
             # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            tokenizer = RegexTokenizer()
-            model = FastTextSocialNetworkModel(tokenizer=tokenizer)
-
-            comments = com.return_comments(url)
-
-
-            sentim = []
-            for com in i['node']['edge_media_to_comment']['edges']:
-                # print(com['node']['text'])
-
-                results = model.predict([com['node']['text']], k=len(com['node']['text']))
-                for x in results:
-                    sentim.append(list(x.keys())[0])
+            sentim = comments.return_sentiment(i['node']['shortcode'])
 
             posit = sentim.count("positive")
             negat = sentim.count("negative")
