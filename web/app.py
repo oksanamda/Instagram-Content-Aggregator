@@ -38,11 +38,11 @@ def load(instatag):
 
     results = []
     #resp = es.search(index="scrapy", size=10000, body={"query": {"match_all": {}}})
-    with open('C:/Users/Денис/Documents/милена/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
+    with open('/home/oksana/Documents/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
         resp = json.loads(f.read())
     f.close() 
     for post in resp: # resp["hits"]["hits"]:
-        results.append((post["image_url"], post["captions"], post["image_description"]))
+        results.append((post["image_url"], post["captions"], post["image_description"], post['sentiment']))
         #results.append((row["_source"]["image_url"], row["_source"]["captions"], row["_source"]["image_description"]))
 
     return render_template('result_page.html', results=results)
