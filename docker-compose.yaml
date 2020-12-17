@@ -1,11 +1,11 @@
 version: '3.3'
 services:
-    torch_learning_vizualization:
+    web:
       container_name: web
       build: ./web
       command: gunicorn --timeout 100 --bind 0.0.0.0:5001  app:app
       volumes:
-        - ./torch_learning_vizualization/:/usr/src/app/
+        - ./web/:/usr/src/app/
       ports:
         - 5001:5001
       restart: always
