@@ -15,7 +15,6 @@
 
 
 <body>
-{% for something in result %}
 <div class="container">
  <h4 class="result-header">Result for HASHTAG</h4>
 
@@ -24,19 +23,17 @@
     ссылку на фото заменить на фотографии
     аналогично в параграфе выводить описание фотки из инсты, тег фотки от нейронки, тег описания от нейронки (??)
     -->
-
+  {% for post in results %}
   <div class="insta-post">
     <div class="insta-photo">
-      <img class="photo" src="https://ru.w3docs.com/uploads/media/book_gallery/0001/02/849d4286475e04155fd5f21861f16f53db95ac72.png">
+      <img class="photo" src={{post[0]}}>
       <div class="insta-caption">
-        <p>{something}</p>
+        <p>{{post[1], post[2]}}</p>
       </div>
     </div>
-
-
-  </div>
   </div>
   {% endfor %}
+  </div>
 </body>
 
 </html>

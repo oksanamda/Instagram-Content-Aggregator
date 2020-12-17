@@ -3,6 +3,7 @@ import random
 import time
 import requests
 from elasticsearch import Elasticsearch
+import json
 
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
@@ -36,10 +37,13 @@ def load(instatag):
 
 
     results = []
-
-    resp = es.search(index="scrapy", size=10000, body={"query": {"match_all": {}}})
-    for row in resp["hits"]["hits"]:
-        results.append((row["_source"]["image_url"], row["_source"]["captions"], row["_source"]["image_description"]))
+    #resp = es.search(index="scrapy", size=10000, body={"query": {"match_all": {}}})
+    with open('C:/Users/Денис/Documents/милена/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
+        resp = json.loads(f.read())
+    f.close() 
+    for post in resp: # resp["hits"]["hits"]:
+        results.append((post["image_url"], post["captions"], post["image_description"]))
+        #results.append((row["_source"]["image_url"], row["_source"]["captions"], row["_source"]["image_description"]))
 
     return render_template('result_page.html', results=results)
 
