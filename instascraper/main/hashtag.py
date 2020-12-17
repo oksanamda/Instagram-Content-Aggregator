@@ -43,7 +43,7 @@ class InstagramSpider(scrapy.Spider):
     def spider_closed(self, spider):
         print('Closing {} spider'.format(spider.name))
 
-    def start_requests(self, tags):
+    def start_requests(self):
         for tag in tags:
             url = f'https://www.instagram.com/explore/tags/{tag}/'
             yield scrapy.Request(get_url(url), callback=self.parse)
@@ -185,8 +185,9 @@ crawler = CrawlerProcess({
     },
     "ELASTICSEARCH_SERVERS": ['http://127.0.0.1:9200'],
     "ELASTICSEARCH_INDEX": 'scrapy',
+    "ELASTICSEARCH_INDEX_DATE_FORMAT": '%Y-%m',
     "ELASTICSEARCH_TYPE": 'items',
-})
+    })
 
 
 crawler.crawl(InstagramSpider)

@@ -15,6 +15,7 @@
 
 
 <body>
+{% for something in result %}
 <div class="container">
  <h4 class="result-header">Result for HASHTAG</h4>
 
@@ -28,14 +29,14 @@
     <div class="insta-photo">
       <img class="photo" src="https://ru.w3docs.com/uploads/media/book_gallery/0001/02/849d4286475e04155fd5f21861f16f53db95ac72.png">
       <div class="insta-caption">
-        <p>some text olol</p>
+        <p>{something}</p>
       </div>
     </div>
 
 
   </div>
   </div>
-
+  {% endfor %}
 </body>
 
 </html>
