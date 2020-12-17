@@ -17,9 +17,9 @@ body {
 
 .insta-post {
     display: flex;
-    justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     padding: 5%;
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 .insta-caption {
-    max-width: 500px;
+    max-width: 900px;
     font-size: 16px;
     line-height: 20px;
     letter-spacing: 2px;
@@ -44,4 +44,8 @@ body {
     font-weight: 800;
     text-align: left;
     margin-top: 2%;
+}
+
+.caption {
+    font-size: 12px;
 }

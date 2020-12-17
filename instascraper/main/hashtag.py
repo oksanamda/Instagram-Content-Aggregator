@@ -12,7 +12,7 @@ import cod
 import comments
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
-tags = ['privetmire']
+# tags = requests.post('http://localhost:1000', data={'tag': instatag})
 
 
 def stop_reactor():
@@ -30,6 +30,11 @@ class InstagramSpider(scrapy.Spider):
     allowed_domains = ['api.scraperapi.com']
     custom_settings = {'CONCURRENT_REQUESTS_PER_DOMAIN': 5}
 
+    def __init__(self, hashtag=''):
+        self.hashtag = hashtag
+        if hashtag == '':
+            self.hashtag = input("Name of the hashtag? ")
+
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(InstagramSpider, cls).from_crawler(crawler, *args, **kwargs)
@@ -44,9 +49,9 @@ class InstagramSpider(scrapy.Spider):
         print('Closing {} spider'.format(spider.name))
 
     def start_requests(self):
-        for tag in tags:
-            url = f'https://www.instagram.com/explore/tags/{tag}/'
-            yield scrapy.Request(get_url(url), callback=self.parse)
+
+        url = f'https://www.instagram.com/explore/tags/{self.hashtag}/'
+        yield scrapy.Request(get_url(url), callback=self.parse)
 
     def parse(self, response):
         x = response.xpath("//script[starts-with(.,'window._sharedData')]/text()").extract_first()
