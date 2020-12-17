@@ -11,7 +11,6 @@ import pd
 import cod
 from dostoevsky.tokenization import RegexTokenizer
 from dostoevsky.models import FastTextSocialNetworkModel
-#import texclas
 
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
@@ -56,9 +55,6 @@ class InstagramSpider(scrapy.Spider):
         json_string = x.strip().split('= ')[1][:-1]
         data = json.loads(json_string)
 
-        with open('data.json', 'w') as outfile:
-            json.dump(data, outfile, indent=4)
-
         # all that we have to do here is to parse the JSON we have
         user_id = data['entry_data']['TagPage'][0]['graphql']['hashtag']['id']
         next_page_bool = \
@@ -92,12 +88,27 @@ class InstagramSpider(scrapy.Spider):
             tokenizer = RegexTokenizer()
             model = FastTextSocialNetworkModel(tokenizer=tokenizer)
 
+            sentim = []
+            for com in i['node']['edge_media_to_comment']['edges']:
+                # print(com['node']['text'])
 
+                results = model.predict([com['node']['text']], k=len(com['node']['text']))
+                for x in results:
+                    sentim.append(list(x.keys())[0])
+
+            posit = sentim.count("positive")
+            negat = sentim.count("negative")
+            cnt = len(sentim)
+            fins = 0
+            if cnt != 0:
+                fins = round(100*(posit/cnt)) + round(100*(negat/cnt))/100
 
             item = {'postURL': url, 'isVideo': video, 'date_posted': date_posted_human,
                     'timestamp': date_posted_timestamp, 'likeCount': like_count, 'commentCount': comment_count, 'image_url': image_url,
                     'captions': captions[:-1],
-                    'image_description': pd.findObjects("tmp.jpg")}
+                    'image_description': pd.findObjects("tmp.jpg"),
+                    'sentiment': str(fins)
+                    }
             if video:
                 yield scrapy.Request(get_url(url), callback=self.get_video, meta={'item': item})
             else:
@@ -147,6 +158,9 @@ class InstagramSpider(scrapy.Spider):
 
             tokenizer = RegexTokenizer()
             model = FastTextSocialNetworkModel(tokenizer=tokenizer)
+
+            comments = com.return_comments(url)
+
 
             sentim = []
             for com in i['node']['edge_media_to_comment']['edges']:

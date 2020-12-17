@@ -5,34 +5,11 @@ import time
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-heading = "Lorem ipsum dolor sit amet."
-
-content = """
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-Repellat inventore assumenda laboriosam, 
-obcaecati saepe pariatur atque est? Quam, molestias nisi.
-"""
-
 db = list()  # The mock database
 
 posts = 500  # num posts to generate
 
 quantity = 20  # num posts to return per request
-
-for x in range(posts):
-
-    """
-    Creates messages/posts by shuffling the heading & content 
-    to create random strings & appends to the db
-    """
-
-    heading_parts = heading.split(" ")
-    random.shuffle(heading_parts)
-
-    content_parts = content.split(" ")
-    random.shuffle(content_parts)
-
-    db.append([x, " ".join(heading_parts), " ".join(content_parts)])
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
