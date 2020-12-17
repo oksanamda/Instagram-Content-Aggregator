@@ -15,7 +15,7 @@ from dostoevsky.models import FastTextSocialNetworkModel
 
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
-user_accounts = ['nice_merch']
+user_accounts = ['oblomoffood']
 
 
 def stop_reactor():
@@ -55,12 +55,16 @@ class InstagramSpider(scrapy.Spider):
         x = response.xpath("//script[starts-with(.,'window._sharedData')]/text()").extract_first()
         json_string = x.strip().split('= ')[1][:-1]
         data = json.loads(json_string)
+
+        with open('data.json', 'w') as outfile:
+            json.dump(data, outfile, indent=4)
+
         # all that we have to do here is to parse the JSON we have
-        user_id = data['entry_data']['ProfilePage'][0]['graphql']['user']['id']
+        user_id = data['entry_data']['TagPage'][0]['graphql']['hashtag']['id']
         next_page_bool = \
-            data['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['page_info'][
+            data['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']['page_info'][
                 'has_next_page']
-        edges = data['entry_data']['ProfilePage'][0]['graphql']['user']['edge_felix_video_timeline']['edges']
+        edges = data['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']['edges']
         for i in edges:
             url = 'https://www.instagram.com/p/' + i['node']['shortcode']
             video = i['node']['is_video']
@@ -78,9 +82,22 @@ class InstagramSpider(scrapy.Spider):
                 image_url = i['node']['display_url']
             else:
                 image_url = i['node']['thumbnail_resources'][-1]['src']
+
+            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            Picture_request = requests.get(image_url)
+            with open("tmp.jpg", 'wb') as f:
+                f.write(Picture_request.content)
+            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            tokenizer = RegexTokenizer()
+            model = FastTextSocialNetworkModel(tokenizer=tokenizer)
+
+
+
             item = {'postURL': url, 'isVideo': video, 'date_posted': date_posted_human,
                     'timestamp': date_posted_timestamp, 'likeCount': like_count, 'commentCount': comment_count, 'image_url': image_url,
-                    'captions': captions[:-1]}
+                    'captions': captions[:-1],
+                    'image_description': pd.findObjects("tmp.jpg")}
             if video:
                 yield scrapy.Request(get_url(url), callback=self.get_video, meta={'item': item})
             else:
@@ -88,8 +105,7 @@ class InstagramSpider(scrapy.Spider):
                 yield item
         if next_page_bool:
             cursor = \
-                data['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['page_info'][
-                    'end_cursor']
+                data['entry_data']['TagPage'][0]['graphql']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor']
             di = {'id': user_id, 'first': 12, 'after': cursor}
             # print(di)
             params = {'query_hash': 'e769aa130647d2354c40ea6a439bfc08', 'variables': json.dumps(di)}
@@ -100,7 +116,7 @@ class InstagramSpider(scrapy.Spider):
         di = response.meta['pages_di']
         data = json.loads(response.text)
         # print(data)
-        for i in data['data']['user']['edge_owner_to_timeline_media']['edges']:
+        for i in data['data']['hashtag']['edge_hashtag_to_media']['edges']:
             video = i['node']['is_video']
             url = 'https://www.instagram.com/p/' + i['node']['shortcode']
             if video:
@@ -131,7 +147,7 @@ class InstagramSpider(scrapy.Spider):
 
             tokenizer = RegexTokenizer()
             model = FastTextSocialNetworkModel(tokenizer=tokenizer)
-            
+
             sentim = []
             for com in i['node']['edge_media_to_comment']['edges']:
                 # print(com['node']['text'])
@@ -139,7 +155,7 @@ class InstagramSpider(scrapy.Spider):
                 results = model.predict([com['node']['text']], k=len(com['node']['text']))
                 for x in results:
                     sentim.append(list(x.keys())[0])
- 
+
             posit = sentim.count("positive")
             negat = sentim.count("negative")
             cnt = len(sentim)
@@ -153,9 +169,9 @@ class InstagramSpider(scrapy.Spider):
                     'image_description': pd.findObjects("tmp.jpg"),
                     'sentiment': str(fins)}  #,'brief': texclas.clss(captions[:-1])}
             yield item
-        next_page_bool = data['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
+        next_page_bool = data['data']['hashtag']['edge_hashtag_to_media']['page_info']['has_next_page']
         if next_page_bool:
-            cursor = data['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
+            cursor = data['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor']
             di['after'] = cursor
             params = {'query_hash': 'e769aa130647d2354c40ea6a439bfc08', 'variables': json.dumps(di)}
             url = 'https://www.instagram.com/graphql/query/?' + urlencode(params)

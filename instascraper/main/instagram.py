@@ -11,7 +11,7 @@ import pd
 import cod
 from dostoevsky.tokenization import RegexTokenizer
 from dostoevsky.models import FastTextSocialNetworkModel
-import texclas
+#import texclas
 
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
@@ -48,7 +48,7 @@ class InstagramSpider(scrapy.Spider):
 
     def start_requests(self):
         for username in user_accounts:
-            url = f'https://www.instagram.com/{username}/?hl=en'
+            url = f'https://www.instagram.com/{username}/?hl=ru'
             yield scrapy.Request(get_url(url), callback=self.parse)
 
     def parse(self, response):
