@@ -14,6 +14,7 @@ import comments
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
 # tags = requests.post('http://localhost:1000', data={'tag': instatag})
 
+CLOSESPIDER = scrapy.exceptions.CloseSpider
 
 def stop_reactor():
     reactor.stop()
@@ -31,6 +32,7 @@ class InstagramSpider(scrapy.Spider):
     custom_settings = {'CONCURRENT_REQUESTS_PER_DOMAIN': 5}
 
     def __init__(self, hashtag=''):
+        super(InstagramSpider, self).__init__()
         self.hashtag = hashtag
         if hashtag == '':
             self.hashtag = input("Name of the hashtag? ")
@@ -142,6 +144,7 @@ class InstagramSpider(scrapy.Spider):
             #print(i['node']['edge_media_to_comment'])
             #print("\n\n\n\n")
 
+
             date_posted_human = datetime.fromtimestamp(date_posted_timestamp).strftime("%d/%m/%Y %H:%M:%S")
             like_count = i['node']['edge_liked_by']['count'] if "edge_liked_by" in i['node'].keys() else ''
 
@@ -194,7 +197,8 @@ crawler = CrawlerProcess({
     "ELASTICSEARCH_TYPE": 'items',
     })
 
+if __name__ == '__main__':
+    crawler.crawl(InstagramSpider)
 
-crawler.crawl(InstagramSpider)
+    reactor.run()
 
-reactor.run()

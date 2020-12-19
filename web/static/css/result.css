@@ -18,7 +18,6 @@ body {
 .insta-post {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: center;
     padding: 5%;
 }
@@ -48,4 +47,8 @@ body {
 
 .caption {
     font-size: 12px;
+}
+
+.plot {
+    max-width: 500px;
 }

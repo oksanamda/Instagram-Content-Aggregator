@@ -24,11 +24,13 @@
       <img class="photo" src={{row[0]}}>
       <div class="insta-caption">
         <p class="caption">Описание поста: {{row[1]}}</p>
-          <p>Тэги от нейронки:{{ row[2]}}</p>
-           <p> Анализ тональности: {{row[3]}} </p>
-          <img src="/plot.png" alt="my plot">
-      </div>
     </div>
+        <div class="insta-caption">
+            <p>Тэги от нейронки:{{ row[2]}}</p>
+           <p> Анализ тональности: </p>
+           <!-- <img class="plot" src="/{{row[-1]}}/plot.png" alt="my plot"> -->
+      </div>
+        </div>
   </div>
 
   {% endfor %}
