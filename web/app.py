@@ -1,14 +1,9 @@
-from flask import Flask, render_template, request, jsonify, make_response, redirect, url_for
-import random
-import time
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 from elasticsearch import Elasticsearch
-import json
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import io
-import random
 from flask import Response
 
 
@@ -41,9 +36,9 @@ def plot_png(sentiment):
 def index():
     if request.method == 'POST':
         data = request.form.to_dict()
-        #requests.post('http://localhost:5002', data={'instatag': 'sunshineisoverated3'})
-        requests.post('http://localhost:5002', data={'instatag': data['instatag']})
-        #return redirect(url_for("load", instatag = data['instatag']))
+        requests.post('http://scraping/', data={'instatag': data['instatag']})
+        requests.post('http://scraping/', data={'instatag': 'restart_scrapy'})
+        return redirect(url_for("load", instatag = data['instatag']))
     return render_template('index.html')
 
 

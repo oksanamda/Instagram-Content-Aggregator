@@ -193,7 +193,7 @@ crawler = CrawlerProcess({
     "ITEM_PIPELINES": {
         'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 500
     },
-    "ELASTICSEARCH_SERVERS": ['http://elastic/'],
+    "ELASTICSEARCH_SERVERS": ['http://127.0.0.1:9200'],
     "ELASTICSEARCH_INDEX": 'scrapy',
     "ELASTICSEARCH_INDEX_DATE_FORMAT": '%Y-%m',
     "ELASTICSEARCH_TYPE": 'items',

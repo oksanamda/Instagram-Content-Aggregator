@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from hashtag import crawler, InstagramSpider, reactor
 import sys
 import os
+import scrapy
+import requests
 
 app = Flask(__name__)
 

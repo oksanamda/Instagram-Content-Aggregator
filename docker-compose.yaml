@@ -1,11 +1,93 @@
-version: '3.3'
+version: '2.2'
 services:
-    web:
-      container_name: web
-      build: ./web
-      command: gunicorn --timeout 100 --bind 0.0.0.0:5001  app:app
-      volumes:
-        - ./web/:/usr/src/app/
-      ports:
-        - 5001:5001
-      restart: always
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data02:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data03:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+
+  web:
+   container_name: web
+   build: ./web
+   command: gunicorn --timeout 100 --bind 0.0.0.0:5001  app:app
+   volumes:
+    - ./web/:/usr/src/app/
+   ports:
+    - 5001:5001
+   restart: always
+  scraping:
+   container_name: scraping
+   build: ./scraping
+   command: gunicorn --timeout 1000 --bind 0.0.0.0:5002  app:app
+   volumes:
+    - ./scraping/:/usr/src/app/
+   ports:
+    - 5002:5002
+   networks:
+     - scraping
+   restart: always
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
+  scraping:
+    driver: bridge
