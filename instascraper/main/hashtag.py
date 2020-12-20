@@ -10,6 +10,7 @@ import requests
 import pd
 import cod
 import comments
+import sys
 
 API = 'ff46b59d4087e5bc1dbf65aa158e094b'
 # tags = requests.post('http://localhost:1000', data={'tag': instatag})
@@ -49,6 +50,7 @@ class InstagramSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         print('Closing {} spider'.format(spider.name))
+        reactor.stop()
 
     def start_requests(self):
 
@@ -201,4 +203,3 @@ if __name__ == '__main__':
     crawler.crawl(InstagramSpider)
 
     reactor.run()
-
