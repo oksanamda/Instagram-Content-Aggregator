@@ -65,6 +65,9 @@ services:
     - ./web/:/usr/src/app/
    ports:
     - 5001:5001
+   networks:
+    - isolation-network
+    - elastic
    restart: always
   scraping:
    container_name: scraping
@@ -75,7 +78,7 @@ services:
    ports:
     - 5002:5002
    networks:
-     - scraping
+    - isolation-network
    restart: always
 
 volumes:
@@ -89,5 +92,5 @@ volumes:
 networks:
   elastic:
     driver: bridge
-  scraping:
+  isolation-network:
     driver: bridge
