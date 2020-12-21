@@ -78,7 +78,7 @@ services:
   web:
    container_name: web
    build: ./web
-   command: gunicorn --timeout 100 --bind 0.0.0.0:5001  app:app
+   command: gunicorn --timeout 5000 --bind 0.0.0.0:5001  app:app
    volumes:
     - ./web/:/usr/src/app/
    ports:
@@ -89,7 +89,7 @@ services:
   scraping:
    container_name: scraping
    build: ./scraping
-   command: gunicorn --timeout 1000 --bind 0.0.0.0:5002  app:app
+   command: gunicorn --timeout 5000 --bind 0.0.0.0:5002  app:app
    volumes:
     - ./scraping/:/usr/src/app/
    ports:
