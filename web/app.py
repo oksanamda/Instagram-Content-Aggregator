@@ -25,7 +25,7 @@ def plot_png(sentiment):
     x = ['positive', 'neutral', 'negative']
     y = [pos, 100 - pos - neg, neg]
     ax.bar(x, y, color=[(rgb(168), rgb(206), rgb(220)),
-                        (rgb(242), rgb(242), rgb(242)),
+                        (rgb(230), rgb(230), rgb(230)),
                         (rgb(255), rgb(192), rgb(192))])
 
     output = io.BytesIO()
@@ -41,6 +41,7 @@ def index():
         #try:
         #    requests.post('http://127.0.0.1:5002', data={'instatag': 'restart_scrapy'})
         #except:
+        es.indices.delete(index='scrapy', ignore=[400, 404])
         requests.post('http://scraping:5002/', data={'instatag': data['instatag']})
         try:
             requests.post('http://scraping:5002/', data={'instatag': 'restart_scrapy'})

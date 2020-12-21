@@ -21,11 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="428601c0-f4ea-4e30-b81d-484e7f002ef0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/hashtag.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/hashtag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scraping/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../scraping/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../scraping/hashtag.py" beforeDir="false" afterPath="$PROJECT_DIR$/../scraping/hashtag.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scraping/tmp.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../scraping/tmp.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../web/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/templates/result_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/../web/templates/result_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +119,7 @@
       <workItem from="1608324364382" duration="22574000" />
       <workItem from="1608468716484" duration="1040000" />
       <workItem from="1608476977036" duration="3352000" />
-      <workItem from="1608552004183" duration="9587000" />
+      <workItem from="1608552004183" duration="10791000" />
     </task>
     <servers />
   </component>
