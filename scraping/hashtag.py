@@ -195,7 +195,6 @@ crawler = CrawlerProcess({
     },
     "ELASTICSEARCH_SERVERS": ['http://es01:9200'],
     "ELASTICSEARCH_INDEX": 'scrapy',
-    "ELASTICSEARCH_INDEX_DATE_FORMAT": '%Y-%m',
     "ELASTICSEARCH_TYPE": 'items',
     })
 

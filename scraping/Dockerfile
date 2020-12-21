@@ -15,6 +15,7 @@ COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install cython==0.29.21 
 RUN pip install --upgrade cython
 RUN pip install -r requirements.txt
+RUN python3 -m dostoevsky download fasttext-social-network-model
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 

@@ -7,7 +7,7 @@ import io
 from flask import Response
 
 
-es = Elasticsearch(['http://es01:9200/'])
+es = Elasticsearch(['http://es01/'])
 #es = Elasticsearch(['http://127.0.0.1:9200/'])
 
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def load(instatag):
 
     results = []
 
-    resp = es.search(index="scrapy-2020-12", size=10000, body={"query": {"match_all": {}}})
+    resp = es.search(index="scrapy", size=10000, body={"query": {"match_all": {}}})
 
     # with open('/home/oksana/Documents/Instagram-Content-Aggregator/instascraper/main/items.json', encoding='utf8') as f:
     #     resp = json.loads(f.read())
