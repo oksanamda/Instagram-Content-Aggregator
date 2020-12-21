@@ -7,8 +7,8 @@ import io
 from flask import Response
 
 
-#es = Elasticsearch(['http://elastic:500/'])
-es = Elasticsearch(['http://127.0.0.1:9200/'])
+es = Elasticsearch(['http://es01:9200/'])
+#es = Elasticsearch(['http://127.0.0.1:9200/'])
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -37,14 +37,14 @@ def plot_png(sentiment):
 def index():
     if request.method == 'POST':
         data = request.form.to_dict()
-        requests.post('http://127.0.0.1:5002', data={'instatag': data['instatag']})
-        try:
-            requests.post('http://127.0.0.1:5002', data={'instatag': 'restart_scrapy'})
-        except:
-        #requests.post('http://scraping:5002/', data={'instatag': data['instatag']})
+        #requests.post('http://127.0.0.1:5002', data={'instatag': data['instatag']})
         #try:
-        #    requests.post('http://scraping:5002/', data={'instatag': 'restart_scrapy'})
+        #    requests.post('http://127.0.0.1:5002', data={'instatag': 'restart_scrapy'})
         #except:
+        requests.post('http://scraping:5002/', data={'instatag': data['instatag']})
+        try:
+            requests.post('http://scraping:5002/', data={'instatag': 'restart_scrapy'})
+        except:
             return redirect(url_for("load", instatag=data['instatag']))
     return render_template('index.html')
 
